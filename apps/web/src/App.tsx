@@ -358,6 +358,7 @@ export const WebApp: React.FC = () => {
     <div style={{ backgroundColor: theme.background, minHeight: '100vh', color: theme.textBody, fontFamily: "'Inter', system-ui, sans-serif" }}>
       {/* ── Premium Top Navbar ─────────────────────────────────────── */}
       <nav
+        className="top-navbar"
         style={{
           backgroundColor: theme.isDark ? 'rgba(13,43,30,0.92)' : 'rgba(255,255,255,0.92)',
           backdropFilter: 'blur(16px)',
@@ -390,6 +391,7 @@ export const WebApp: React.FC = () => {
 
         {/* Nav Links */}
         <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+        <div className="nav-links-container" style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
           {[
             { id: '/', label: getTranslation(language, 'navHome') },
             { id: '/schemes', label: getTranslation(language, 'navAllSchemes') },
@@ -631,6 +633,7 @@ export const WebApp: React.FC = () => {
           {/* Floating Assistant Drawer Popup */}
           {assistantFloatingOpen && (
             <div
+              className="floating-assistant-popup"
               style={{
                 position: 'fixed',
                 bottom: '92px',
