@@ -383,10 +383,10 @@ export const WebApp: React.FC = () => {
           <div style={{ width: '32px', height: '32px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.12)' }}>
             <img src="/logo.png" alt="IVA" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1 }}>
-            <span style={{ fontFamily: "'Outfit', 'Noto Serif', Georgia, serif", fontSize: '18px', fontWeight: '900', color: theme.textHeading, letterSpacing: '-0.5px' }}>IVA</span>
-            <span style={{ fontSize: '10px', fontWeight: '700', color: theme.textSubtle, letterSpacing: '0.04em', textTransform: 'uppercase' }}>Citizen Portal</span>
-          </div>
+            <div className="hide-on-mobile" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1 }}>
+              <span style={{ fontFamily: "'Outfit', 'Noto Serif', Georgia, serif", fontSize: '18px', fontWeight: '900', color: theme.textHeading, letterSpacing: '-0.5px' }}>IVA</span>
+              <span style={{ fontSize: '10px', fontWeight: '700', color: theme.textSubtle, letterSpacing: '0.04em', textTransform: 'uppercase' }}>Citizen Portal</span>
+            </div>
         </button>
 
         {/* Nav Links */}
@@ -425,13 +425,19 @@ export const WebApp: React.FC = () => {
         {/* Right Controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {/* Language Selector */}
-          <select
-            value={language}
-            onChange={(e) => setLanguage(e.target.value as SupportedLanguage)}
-            style={{ backgroundColor: theme.surfaceSubtle, color: theme.textMuted, border: `1px solid ${theme.borderSubtle}`, borderRadius: '8px', padding: '5px 8px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', outline: 'none' }}
-          >
-            {SUPPORTED_LANGUAGES_LIST.map((l) => <option key={l.code} value={l.code}>{l.nativeName}</option>)}
-          </select>
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+            <div className="language-mobile-icon" style={{ display: 'none', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', backgroundColor: theme.surfaceSubtle, border: `1px solid ${theme.borderSubtle}`, borderRadius: '8px', color: theme.textMuted }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            </div>
+            <select
+              className="language-select"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as SupportedLanguage)}
+              style={{ backgroundColor: theme.surfaceSubtle, color: theme.textMuted, border: `1px solid ${theme.borderSubtle}`, borderRadius: '8px', padding: '5px 8px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', outline: 'none' }}
+            >
+              {SUPPORTED_LANGUAGES_LIST.map((l) => <option key={l.code} value={l.code}>{l.nativeName}</option>)}
+            </select>
+          </div>
 
           {/* Theme Toggle */}
           <button
