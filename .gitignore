@@ -1,0 +1,31 @@
+# Dependencies - ALL node_modules at any depth
+node_modules/
+**/node_modules/
+
+# Build output
+dist/
+**/dist/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Expo
+.expo/
+**/.expo/
+
+# pnpm
+.pnpm-store/
+.pnpm-debug.log
+
+# Misc
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*

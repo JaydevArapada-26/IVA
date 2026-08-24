@@ -1,0 +1,33 @@
+{
+  "name": "iva-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "IVA - Citizen Support System for Government Schemes (Monorepo)",
+  "workspaces": [
+    "apps/web",
+    "apps/admin",
+    "apps/backend",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build:backend && npm run build:web && npm run build:admin",
+    "dev:web": "npm run dev --workspace=@iva/web",
+    "dev:admin": "npm run dev --workspace=@iva/admin",
+    "dev:backend": "npm run dev --workspace=@iva/backend",
+    "dev": "concurrently -n backend,web,admin -c blue,green,magenta \"npm:dev:backend\" \"npm:dev:web\" \"npm:dev:admin\"",
+    "build:web": "npm run build --workspace=@iva/web",
+    "build:admin": "npm run build --workspace=@iva/admin",
+    "build:backend": "npm run build --workspace=@iva/backend",
+    "start:web": "npm run start --workspace=@iva/web",
+    "start:backend": "npm run start --workspace=@iva/backend",
+    "start:admin": "npm run start --workspace=@iva/admin",
+    "start": "concurrently -n backend,web,admin -c blue,green,magenta \"npm:start:backend\" \"npm:start:web\" \"npm:start:admin\"",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "concurrently": "^8.2.2",
+    "serve": "^14.2.6",
+    "typescript": "^5.3.3"
+  }
+}

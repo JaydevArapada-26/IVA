@@ -1,0 +1,135 @@
+import type { HttpRouteGroup } from '../../../http/types';
+import { apiMetaRoute } from './meta.route';
+import {
+  adminLoginRoute,
+  checkAccountRoute,
+  loginRoute,
+  requestOtpRoute,
+  sessionExchangeRoute,
+  signupCompleteRoute,
+} from './auth.route';
+import {
+  getProfileEligibilityRoute,
+  getProfileNotificationsRoute,
+  getProfileRoute,
+  getProfileSmsHistoryRoute,
+  syncIdentityRoute,
+  updateProfileRoute,
+} from './profile.route';
+import { getRecommendedSchemesRoute, getSchemeBySlugRoute, getSchemeCategoriesRoute, getSchemesRoute } from './schemes.route';
+import { getSavedSchemesRoute, saveSchemeRoute, unsaveSchemeRoute } from './saved-schemes.route';
+import {
+  archiveSchemeRoute,
+  bulkDeleteAdminLogsRoute,
+  bulkDeleteAdminSchemesRoute,
+  bulkDeleteAdminSmsLogsRoute,
+  bulkDeleteAdminUsersRoute,
+  bulkPrepIngestionRoute,
+  bulkSetAdminUserStatusRoute,
+  canonicalImportRoute,
+  categorizedImportRoute,
+  createAdminLanguageRoute,
+  createAdminSchemeRoute,
+  decideReviewRoute,
+  deleteAdminLanguageRoute,
+  deleteAdminLogRoute,
+  deleteAdminSchemeRoute,
+  deleteAdminSmsLogRoute,
+  deleteAdminUserRoute,
+  getAdminIngestionRoute,
+  getAdminLanguagesRoute,
+  getAdminLogsRoute,
+  getAdminReviewQueueRoute,
+  getAdminSchemeDetailRoute,
+  getAdminSchemesRoute,
+  getAdminSmsQueueRoute,
+  getAdminSourcesRoute,
+  getAdminStatsRoute,
+  getAdminUsersRoute,
+  getDailySmsJobRunsRoute,
+  ingestUrlRoute,
+  publishSchemeRoute,
+  reverifySourceRoute,
+  runDailySmsJobRoute,
+  sendAdminUserSmsRoute,
+  setAdminUserStatusRoute,
+  updateAdminLanguageRoute,
+  updateAdminSchemeRoute,
+  updateAdminUserRoute,
+} from './admin.route';
+import { postAssistantMessageRoute } from './assistant.route';
+
+export const apiV1RouteGroup: HttpRouteGroup = {
+  basePath: '/api/v1',
+  routes: [
+    apiMetaRoute,
+
+    // auth
+    requestOtpRoute,
+    loginRoute,
+    adminLoginRoute,
+    checkAccountRoute,
+    sessionExchangeRoute,
+    signupCompleteRoute,
+
+    // schemes (citizen-facing) — order matters: /schemes/saved, /schemes/categories and
+    // /schemes/recommended must resolve before the /schemes/:slug catch-all
+    getSchemesRoute,
+    getSchemeCategoriesRoute,
+    getRecommendedSchemesRoute,
+    getSavedSchemesRoute,
+    saveSchemeRoute,
+    unsaveSchemeRoute,
+    getSchemeBySlugRoute,
+
+    // profile
+    getProfileRoute,
+    updateProfileRoute,
+    getProfileEligibilityRoute,
+    getProfileNotificationsRoute,
+    getProfileSmsHistoryRoute,
+    syncIdentityRoute,
+
+    // assistant
+    postAssistantMessageRoute,
+
+    // admin
+    getAdminStatsRoute,
+    getAdminSchemesRoute,
+    getAdminSchemeDetailRoute,
+    createAdminSchemeRoute,
+    updateAdminSchemeRoute,
+    bulkDeleteAdminSchemesRoute,
+    deleteAdminSchemeRoute,
+    publishSchemeRoute,
+    archiveSchemeRoute,
+    getAdminUsersRoute,
+    updateAdminUserRoute,
+    setAdminUserStatusRoute,
+    bulkSetAdminUserStatusRoute,
+    bulkDeleteAdminUsersRoute,
+    deleteAdminUserRoute,
+    sendAdminUserSmsRoute,
+    runDailySmsJobRoute,
+    getDailySmsJobRunsRoute,
+    getAdminLogsRoute,
+    bulkDeleteAdminLogsRoute,
+    deleteAdminLogRoute,
+    getAdminSmsQueueRoute,
+    bulkDeleteAdminSmsLogsRoute,
+    deleteAdminSmsLogRoute,
+    getAdminSourcesRoute,
+    reverifySourceRoute,
+    getAdminReviewQueueRoute,
+    decideReviewRoute,
+    getAdminLanguagesRoute,
+    createAdminLanguageRoute,
+    updateAdminLanguageRoute,
+    deleteAdminLanguageRoute,
+    bulkPrepIngestionRoute,
+    ingestUrlRoute,
+    getAdminIngestionRoute,
+    canonicalImportRoute,
+    categorizedImportRoute,
+  ],
+};
