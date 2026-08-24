@@ -6,15 +6,15 @@
   "types": "dist/main.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "dev": "tsx watch --env-file=../../.env src/main.ts",
-    "start": "node --env-file=../../.env dist/main.js",
+    "dev": "tsx watch src/main.ts",
+    "start": "node dist/main.js",
     "type-check": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "db:generate": "drizzle-kit generate --config drizzle.config.ts",
     "db:migrate": "drizzle-kit migrate --config drizzle.config.ts",
     "db:push": "drizzle-kit push --config drizzle.config.ts",
     "db:check": "drizzle-kit check --config drizzle.config.ts",
-    "db:seed": "tsx --env-file=../../.env src/db/seed/index.ts"
+    "db:seed": "tsx src/db/seed/index.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.8",

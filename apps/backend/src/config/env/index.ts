@@ -155,8 +155,8 @@ export function loadBackendEnv(source: EnvSource = process.env): BackendEnv {
   loadDotEnvIfPresent();
   return {
     nodeEnv: readNodeEnv(source),
-    host: readOptionalString(source, 'BACKEND_HOST', BACKEND_DEFAULT_HOST),
-    port: readNumber(source, 'BACKEND_PORT', BACKEND_DEFAULT_PORT),
+    host: readOptionalString(source, 'HOST', readOptionalString(source, 'BACKEND_HOST', BACKEND_DEFAULT_HOST)),
+    port: source.PORT ? readNumber(source, 'PORT', BACKEND_DEFAULT_PORT) : readNumber(source, 'BACKEND_PORT', BACKEND_DEFAULT_PORT),
     apiBasePath: readOptionalString(source, 'BACKEND_API_BASE_PATH', BACKEND_API_BASE_PATH),
     logLevel: readLogLevel(source),
     databaseUrl: readOptionalString(source, 'DATABASE_URL', 'postgresql://postgres:postgres@localhost:5432/iva'),
