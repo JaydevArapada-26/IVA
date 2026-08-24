@@ -44,8 +44,8 @@ function AuthCallbackHandler() {
         }
       }
 
-      // For new signups, always go to the recommended schemes page after confirmation.
-      const destination = pending ? '/profile/schemes-for-me' : next;
+      // After confirmation and auth, redirect directly to homepage ('/').
+      const destination = next && next !== '/profile/schemes-for-me' ? next : '/';
 
       if (pending) {
         try {

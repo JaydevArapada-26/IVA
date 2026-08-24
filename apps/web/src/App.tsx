@@ -175,7 +175,7 @@ export const WebApp: React.FC = () => {
             if (savedRoute && savedRoute !== '/' && savedRoute !== '/auth') {
               setRouteState(savedRoute);
             } else {
-              setRoute('/profile/schemes-for-me');
+              setRoute('/');
             }
           }
         }
