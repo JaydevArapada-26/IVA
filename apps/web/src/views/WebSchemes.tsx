@@ -207,7 +207,6 @@ export const WebSchemes: React.FC<WebSchemesProps> = ({
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '380px 1fr', gap: '24px', alignItems: 'start' }}>
       {/* ── Main Content Area ──────────────────────────────────────────────────────── */}
       <div className="responsive-grid-2col" style={{ gap: '24px', alignItems: 'start' }}>
         {/* ── Left: Scheme List ──────────────────────────────────────── */}

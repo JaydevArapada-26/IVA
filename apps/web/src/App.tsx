@@ -390,7 +390,6 @@ export const WebApp: React.FC = () => {
         </button>
 
         {/* Nav Links */}
-        <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
         <div className="nav-links-container" style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
           {[
             { id: '/', label: getTranslation(language, 'navHome') },
