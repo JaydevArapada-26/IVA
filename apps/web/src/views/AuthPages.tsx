@@ -1251,7 +1251,7 @@ export const AuthPages: React.FC<AuthPagesProps> = ({
               </div>
 
               {/* DOB & Gender */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div className="responsive-auth-grid-2" style={{ gap: '16px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '13.5px', fontWeight: '700', color: theme.textHeading, marginBottom: '6px' }}>
                     {getTranslation(language, 'regDobLabel')}
@@ -1304,7 +1304,7 @@ export const AuthPages: React.FC<AuthPagesProps> = ({
               </div>
 
               {/* Email & Phone */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div className="responsive-auth-grid-2" style={{ gap: '16px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '13.5px', fontWeight: '700', color: theme.textHeading, marginBottom: '6px' }}>
                     {getTranslation(language, 'regEmailLabel')}
@@ -1444,7 +1444,7 @@ export const AuthPages: React.FC<AuthPagesProps> = ({
                 </div>
 
                 {/* Password Policy Live Checklist */}
-                <div style={{ marginTop: '10px', backgroundColor: theme.surfaceSubtle, padding: '12px 14px', borderRadius: '10px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '12.5px' }}>
+                <div className="responsive-auth-grid-2" style={{ marginTop: '10px', backgroundColor: theme.surfaceSubtle, padding: '12px 14px', borderRadius: '10px', gap: '8px', fontSize: '12.5px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: hasMinLength ? '#10b981' : theme.textMuted }}>
                     {hasMinLength ? <CheckCircleIcon /> : <XCircleIcon color={theme.textMuted} />}
                     <span>{getTranslation(language, 'regPasswordCheckMinLength')}</span>
@@ -1588,7 +1588,7 @@ export const AuthPages: React.FC<AuthPagesProps> = ({
               </div>
 
               {/* State & District Dropdowns */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div className="responsive-auth-grid-2" style={{ gap: '16px' }}>
                 <div>
                   <label style={labelStyle}>{getTranslation(language, 'regStateLabel')}</label>
                   <select value={selectedState} onChange={(e) => setSelectedState(e.target.value)} style={selectStyle}>
@@ -1615,7 +1615,7 @@ export const AuthPages: React.FC<AuthPagesProps> = ({
               {/* Rural / Urban Residence */}
               <div>
                 <label style={labelStyle}>{getTranslation(language, 'regResidenceLabel')}</label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div className="responsive-auth-grid-2" style={{ gap: '16px' }}>
                   {RESIDENCE_TYPE_OPTIONS.map((opt) => (
                     <button
                       key={opt.value}
@@ -1727,7 +1727,7 @@ export const AuthPages: React.FC<AuthPagesProps> = ({
               {/* Children / dependents */}
               <div>
                 <label style={labelStyle}>{getTranslation(language, 'regDependentsLabel')}</label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+                <div className="responsive-auth-grid-3" style={{ gap: '12px' }}>
                   {([['yes', true], ['no', false], ['prefer', '']] as const).map(([key, val]) => (
                     <button
                       key={key}
@@ -1764,7 +1764,7 @@ export const AuthPages: React.FC<AuthPagesProps> = ({
               {/* Disability Status */}
               <div>
                 <label style={{ ...labelStyle, marginBottom: '10px' }}>{getTranslation(language, 'regDisabilityLabel')}</label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div className="responsive-auth-grid-2" style={{ gap: '16px' }}>
                   <button
                     type="button"
                     onClick={() => setRegDisability(false)}
@@ -1910,7 +1910,7 @@ export const AuthPages: React.FC<AuthPagesProps> = ({
                 </div>
                 <div>
                   <label style={labelStyle}>{getTranslation(language, 'regOwnsResidentialLandLabel')}</label>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+                  <div className="responsive-auth-grid-3" style={{ gap: '12px' }}>
                     {([['yes', true], ['no', false], ['notSure', '']] as const).map(([key, val]) => (
                       <button
                         key={key}

@@ -467,14 +467,16 @@ export const WebApp: React.FC = () => {
               {getInitials(profile.name)}
             </button>
           ) : (
-            <div style={{ display: 'flex', gap: '8px' }}>
+            <div className="nav-controls-container" style={{ display: 'flex', gap: '8px' }}>
               <button
+                className="responsive-auth-btn"
                 onClick={() => { setAuthMode('login'); setRoute('/auth'); }}
                 style={{ backgroundColor: theme.surfaceSubtle, color: theme.primary, border: `1.5px solid ${theme.border}`, padding: '7px 14px', borderRadius: '10px', fontSize: '13px', fontWeight: '800', cursor: 'pointer' }}
               >
                 Login
               </button>
               <button
+                className="responsive-auth-btn"
                 onClick={() => { setAuthMode('register'); setRoute('/auth'); }}
                 style={{ background: `linear-gradient(135deg, ${theme.primary}, ${theme.primaryHover})`, color: theme.textInverse, border: 'none', padding: '7px 18px', borderRadius: '10px', fontSize: '13px', fontWeight: '800', cursor: 'pointer', boxShadow: '0 2px 8px rgba(113,131,85,0.3)' }}
               >

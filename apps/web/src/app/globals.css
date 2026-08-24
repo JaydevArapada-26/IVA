@@ -42,3 +42,31 @@ img {
     grid-template-columns: 1fr !important;
   }
 }
+
+
+/* Auth Forms Responsive */
+.responsive-auth-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.responsive-auth-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.responsive-auth-btn {
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .responsive-auth-grid-2,
+  .responsive-auth-grid-3 {
+    grid-template-columns: 1fr !important;
+  }
+  .responsive-auth-btn {
+    padding: 7px 10px !important;
+    font-size: 12.5px !important;
+  }
+  .nav-controls-container {
+    gap: 4px !important;
+  }
+}
