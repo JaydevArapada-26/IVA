@@ -4,6 +4,11 @@ import React from 'react';
 export const metadata: Metadata = {
   title: 'IVA - Citizen Support System for Government Schemes',
   description: 'AI-assisted citizen support platform for finding and managing government schemes.',
+  icons: {
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
+  },
 };
 
 export default function RootLayout({
