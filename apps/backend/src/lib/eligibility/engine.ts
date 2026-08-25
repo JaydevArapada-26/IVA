@@ -105,11 +105,14 @@ interface RuleWithValues {
 // DB fetch helpers
 // ---------------------------------------------------------------------------
 
+import { computeAgeFromDob } from '../age';
+
 export async function fetchProfileSnapshot(userId: string): Promise<ProfileSnapshot | null> {
   const rows = await db
     .select({
       profileId: profiles.id,
       age: profileVersions.age,
+      dateOfBirth: profileVersions.dateOfBirth,
       gender: profileVersions.gender,
       state: profileVersions.state,
       district: profileVersions.district,
@@ -153,7 +156,16 @@ export async function fetchProfileSnapshot(userId: string): Promise<ProfileSnaps
     .where(eq(users.id, userId))
     .limit(1);
 
-  return rows[0] ?? null;
+  const row = rows[0];
+  if (!row) return null;
+  
+  const { dateOfBirth, age, ...rest } = row;
+  const currentAge = dateOfBirth ? computeAgeFromDob(dateOfBirth) ?? age : age;
+
+  return {
+    ...rest,
+    age: currentAge,
+  };
 }
 
 async function fetchSchemeRules(schemeId: string): Promise<readonly RuleWithValues[]> {

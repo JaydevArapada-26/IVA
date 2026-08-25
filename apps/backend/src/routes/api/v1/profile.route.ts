@@ -15,6 +15,7 @@ import { err, ok, parseJsonBody, requireCitizenUserId } from '../../../lib/http-
 import { verifySupabaseAccessToken } from '../../../lib/supabase-jwt';
 import { normalizePhoneNumber } from '../../../lib/phone';
 import { bustRankingCache } from '../../../lib/priority/engine';
+import { computeAgeFromDob } from '../../../lib/age';
 import type { profiles, profileVersions, users } from '../../../db/schema/identity';
 
 const REQUIRED_COMPLETENESS_FIELDS: ReadonlyArray<{ key: string; check: (v: typeof profileVersions.$inferSelect | undefined) => boolean }> = [
@@ -64,6 +65,8 @@ function toProfileDto(
     ...(version?.docLand != null ? { land: version.docLand } : {}),
   };
 
+  const computedAge = version?.dateOfBirth ? computeAgeFromDob(version.dateOfBirth) : version?.age;
+
   return {
     id: profile.id,
     userId: user.id,
@@ -73,7 +76,7 @@ function toProfileDto(
     ...(user.email ? { email: user.email } : {}),
     ...(user.phoneNumber ? { phoneNumber: user.phoneNumber } : {}),
     ...(version?.dateOfBirth ? { dateOfBirth: version.dateOfBirth } : {}),
-    ...(version?.age != null ? { age: version.age } : {}),
+    ...(computedAge != null ? { age: computedAge } : {}),
     ...(gender ? { gender } : {}),
     ...(version?.state ? { state: version.state } : {}),
     ...(version?.district ? { district: version.district } : {}),
