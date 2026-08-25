@@ -218,41 +218,41 @@ export const WebAssistant: React.FC<WebAssistantProps> = ({ theme, language }) =
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', backgroundColor: theme.background, fontFamily: FONT_SANS }}>
 
       {/* ── Header ─────────────────────────────────────────────────────────── */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '18px 24px', borderBottom: `1px solid ${theme.borderSubtle}`, backgroundColor: theme.surface, flexShrink: 0 }}>
-        <div style={{ backgroundColor: theme.surfaceSubtle, border: `1.5px solid ${theme.border}`, borderRadius: '12px', padding: '8px', color: theme.primary, display: 'flex' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '14px 16px', borderBottom: `1px solid ${theme.borderSubtle}`, backgroundColor: theme.surface, flexShrink: 0 }}>
+        <div style={{ backgroundColor: theme.surfaceSubtle, border: `1.5px solid ${theme.border}`, borderRadius: '10px', padding: '7px', color: theme.primary, display: 'flex', flexShrink: 0 }}>
           <MicIcon />
         </div>
-        <div>
-          <h2 style={{ fontFamily: FONT_SERIF, fontSize: '20px', fontWeight: '900', color: theme.textHeading, margin: 0, lineHeight: 1 }}>
+        <div style={{ minWidth: 0, flex: 1 }}>
+          <h2 style={{ fontFamily: FONT_SERIF, fontSize: '18px', fontWeight: '900', color: theme.textHeading, margin: 0, lineHeight: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {getTranslation(language, 'assistantTitle')}
           </h2>
-          <p style={{ fontSize: '12.5px', color: theme.textSubtle, margin: '3px 0 0', fontWeight: '500' }}>
+          <p style={{ fontSize: '12px', color: theme.textSubtle, margin: '2px 0 0', fontWeight: '500' }}>
             {getTranslation(language, 'assistantSubtitle')}
           </p>
         </div>
-        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
           <ConnectionBadge state={connectionState} theme={theme} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: '#dcfce7', color: '#15803d', padding: '5px 10px', borderRadius: '100px', fontSize: '11.5px', fontWeight: '800' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px', backgroundColor: '#dcfce7', color: '#15803d', padding: '4px 9px', borderRadius: '100px', fontSize: '11px', fontWeight: '800', whiteSpace: 'nowrap' }}>
             <SparkIcon /> {getTranslation(language, 'assistantAiActive')}
           </div>
         </div>
       </div>
 
-      {/* ── Messages ────────────────────────────────────────────────────────── */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      {/* ── Messages ────────────────────────────────────────────────────── */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: '20px 16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
 
         {/* Starter prompts when chat is empty */}
         {isEmpty && (
-          <div style={{ marginTop: 'auto', paddingBottom: '24px' }}>
-            <p style={{ textAlign: 'center', fontSize: '13px', color: theme.textSubtle, marginBottom: '14px', fontWeight: '600' }}>
+          <div style={{ marginTop: 'auto', paddingBottom: '20px' }}>
+            <p style={{ textAlign: 'center', fontSize: '13px', color: theme.textSubtle, marginBottom: '12px', fontWeight: '600' }}>
               {getTranslation(language, 'assistantTryAsking')}
             </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center', maxWidth: '520px', margin: '0 auto' }}>
               {STARTER_PROMPTS.map(p => (
                 <button
                   key={p}
                   onClick={() => handleSend(p)}
-                  style={{ backgroundColor: theme.surface, color: theme.textMuted, border: `1px solid ${theme.border}`, borderRadius: '100px', padding: '8px 16px', fontSize: '13px', fontWeight: '600', cursor: 'pointer', transition: 'all 0.15s' }}
+                  style={{ backgroundColor: theme.surface, color: theme.textMuted, border: `1px solid ${theme.border}`, borderRadius: '100px', padding: '7px 14px', fontSize: '12.5px', fontWeight: '600', cursor: 'pointer', transition: 'all 0.15s' }}
                   onMouseEnter={e => { e.currentTarget.style.backgroundColor = theme.surfaceSubtle; e.currentTarget.style.color = theme.primary; }}
                   onMouseLeave={e => { e.currentTarget.style.backgroundColor = theme.surface; e.currentTarget.style.color = theme.textMuted; }}
                 >
@@ -269,7 +269,7 @@ export const WebAssistant: React.FC<WebAssistantProps> = ({ theme, language }) =
             key={msg.id}
             style={{
               alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
-              maxWidth: '82%',
+              maxWidth: 'min(82%, 600px)',
               animation: 'fadeUp 0.2s ease both',
             }}
           >
@@ -298,32 +298,31 @@ export const WebAssistant: React.FC<WebAssistantProps> = ({ theme, language }) =
 
         {/* Voice state feedback */}
         {speechState === 'listening' && (
-          <div style={{ alignSelf: 'flex-start', color: theme.primary, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#ef4444', animation: 'pulse 1.5s infinite' }} />
+          <div style={{ alignSelf: 'flex-start', color: theme.primary, fontSize: '12px', display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 0' }}>
+            <div style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#ef4444', animation: 'pulse 1.5s infinite', flexShrink: 0 }} />
             Listening…
           </div>
         )}
         {speechState === 'processing' && (
-          <div style={{ alignSelf: 'flex-start', color: theme.textSubtle, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <div style={{ width: '12px', height: '12px', border: `2px solid ${theme.primary}`, borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+          <div style={{ alignSelf: 'flex-start', color: theme.textSubtle, fontSize: '12px', display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 0' }}>
+            <div style={{ width: '11px', height: '11px', border: `2px solid ${theme.primary}`, borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', flexShrink: 0 }} />
             Processing…
           </div>
         )}
         {voiceError && (
-          <div style={{ alignSelf: 'flex-start', color: '#ef4444', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <div style={{ width: '14px', height: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1.5px solid #ef4444', borderRadius: '50%', fontSize: '10px', fontWeight: 'bold' }}>!</div>
+          <div style={{ alignSelf: 'flex-start', color: '#ef4444', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 0' }}>
+            <div style={{ width: '13px', height: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1.5px solid #ef4444', borderRadius: '50%', fontSize: '9px', fontWeight: 'bold', flexShrink: 0 }}>!</div>
             {voiceError}
           </div>
         )}
-        {isSending && <ThinkingDots theme={theme} />}
 
         <div ref={messagesEndRef} />
       </div>
 
       {/* ── Input Bar ───────────────────────────────────────────────────────── */}
-      <div style={{ padding: '16px 24px 20px', borderTop: `1px solid ${theme.borderSubtle}`, backgroundColor: theme.surface, flexShrink: 0 }}>
+      <div style={{ padding: '12px 16px 16px', borderTop: `1px solid ${theme.borderSubtle}`, backgroundColor: theme.surface, flexShrink: 0 }}>
         <div
-          style={{ display: 'flex', gap: '10px', alignItems: 'flex-end', maxWidth: '100%', backgroundColor: theme.background, border: `1.5px solid ${theme.border}`, borderRadius: '16px', padding: '8px 8px 8px 16px', transition: 'border-color 0.15s, box-shadow 0.15s' }}
+          style={{ display: 'flex', gap: '8px', alignItems: 'flex-end', maxWidth: '100%', backgroundColor: theme.background, border: `1.5px solid ${theme.border}`, borderRadius: '14px', padding: '7px 7px 7px 14px', transition: 'border-color 0.15s, box-shadow 0.15s' }}
           onFocusCapture={e => { (e.currentTarget as HTMLDivElement).style.borderColor = theme.primary; (e.currentTarget as HTMLDivElement).style.boxShadow = `0 0 0 3px ${theme.isDark ? 'rgba(82,183,136,0.15)' : 'rgba(113,131,85,0.12)'}`; }}
           onBlurCapture={e => { (e.currentTarget as HTMLDivElement).style.borderColor = theme.border; (e.currentTarget as HTMLDivElement).style.boxShadow = 'none'; }}
         >
@@ -337,7 +336,7 @@ export const WebAssistant: React.FC<WebAssistantProps> = ({ theme, language }) =
                 handleSend();
               }
             }}
-            style={{ flex: 1, backgroundColor: 'transparent', color: theme.textHeading, border: 'none', fontSize: '15px', outline: 'none', padding: '6px 0', fontFamily: FONT_SANS }}
+            style={{ flex: 1, backgroundColor: 'transparent', color: theme.textHeading, border: 'none', fontSize: '15px', outline: 'none', padding: '5px 0', fontFamily: FONT_SANS }}
           />
 
           {/* Mic button */}
@@ -350,7 +349,7 @@ export const WebAssistant: React.FC<WebAssistantProps> = ({ theme, language }) =
               color: micColor,
               border: 'none',
               borderRadius: '10px',
-              width: '40px', height: '40px',
+              width: '38px', height: '38px',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               cursor: isSending || !voiceSupported ? 'default' : 'pointer',
               flexShrink: 0,
@@ -373,7 +372,7 @@ export const WebAssistant: React.FC<WebAssistantProps> = ({ theme, language }) =
               color: (isSending || !inputQuery.trim()) ? theme.textSubtle : theme.textInverse,
               border: 'none',
               borderRadius: '10px',
-              width: '40px', height: '40px',
+              width: '38px', height: '38px',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               cursor: (isSending || !inputQuery.trim()) ? 'default' : 'pointer',
               flexShrink: 0,
@@ -395,9 +394,12 @@ export const WebAssistant: React.FC<WebAssistantProps> = ({ theme, language }) =
             from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
           }
+          @media (max-width: 480px) {
+            .iva-assistant-disclaimer { display: none !important; }
+          }
         `}</style>
 
-        <p style={{ fontSize: '11.5px', color: theme.textSubtle, textAlign: 'center', margin: '8px 0 0', fontWeight: '500' }}>
+        <p className="iva-assistant-disclaimer" style={{ fontSize: '11px', color: theme.textSubtle, textAlign: 'center', margin: '8px 0 0', fontWeight: '500' }}>
           {getTranslation(language, 'assistantDisclaimer')}
         </p>
       </div>

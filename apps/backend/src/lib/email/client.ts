@@ -67,3 +67,4 @@ export function isSmtpConfigured(): boolean {
   const env = loadBackendEnv();
   return Boolean(env.smtpHost && env.smtpUser && env.smtpPass && env.smtpFromEmail);
 }
+

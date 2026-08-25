@@ -43,10 +43,13 @@ function evaluateBeneficiaryCriterion(profile: ProfileSnapshot, beneficiaryType:
   if (!haystack) return null;
 
   const flagKeywords: ReadonlyArray<[boolean | null, readonly string[]]> = [
-    [profile.studentStatus, ['student', 'scholar']],
-    [profile.farmerStatus, ['farmer', 'agricultur']],
-    [profile.seniorCitizenStatus, ['senior citizen', 'elderly', 'pensioner']],
+    [profile.studentStatus || profile.employmentStatus === 'student', ['student', 'scholar']],
+    [profile.farmerStatus || profile.employmentStatus === 'farmer' || profile.employmentStatus === 'agricultural_worker', ['farmer', 'agricultur', 'kisan']],
+    [profile.seniorCitizenStatus || (profile.age != null && profile.age >= 60) || profile.employmentStatus === 'retired', ['senior citizen', 'elderly', 'pensioner']],
     [profile.disabilityStatus, ['disab', 'divyang', 'pwd']],
+    [profile.maritalStatus === 'widowed', ['widow', 'destitute']],
+    [profile.bplEwsStatus === 'bpl' || profile.bplEwsStatus === 'ews', ['bpl', 'ews', 'poor']],
+    [profile.employmentStatus === 'unemployed', ['unemployed', 'youth']],
   ];
 
   const applicableFlags = flagKeywords.filter(([, keywords]) => keywords.some((k) => haystack.includes(k)));

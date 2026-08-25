@@ -337,7 +337,7 @@ function toAdminUserRecordDto(
       ? {
           lastAdminSms: {
             status: lastAdminSms.status as AdminUserSmsStateDto['status'],
-            ...(lastAdminSms.schemeName ? { schemeName: lastAdminSms.schemeName } : {}),
+            ...(lastAdminSms.schemeName ? { schemeName: lastAdminSms.schemeName, schemeTitle: lastAdminSms.schemeName } : {}),
             ...(lastAdminSms.failureReason ? { failureReason: lastAdminSms.failureReason } : {}),
             createdAt: lastAdminSms.createdAt.toISOString(),
             completedAt: lastAdminSms.completedAt.toISOString(),

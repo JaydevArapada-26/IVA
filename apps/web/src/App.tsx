@@ -354,6 +354,12 @@ export const WebApp: React.FC = () => {
 
   return (
     <div style={{ backgroundColor: theme.background, minHeight: '100vh', color: theme.textBody, fontFamily: "'Inter', system-ui, sans-serif" }}>
+      <style>{`
+        @media (max-width: 600px) {
+          .hide-on-mobile { display: none !important; }
+          .top-navbar { padding: 0 16px !important; }
+        }
+      `}</style>
       {/* ── Premium Top Navbar ─────────────────────────────────────── */}
       <nav
         className="top-navbar"
@@ -423,15 +429,15 @@ export const WebApp: React.FC = () => {
         {/* Right Controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {/* Language Selector */}
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            <div className="language-mobile-icon" style={{ display: 'none', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', backgroundColor: theme.surfaceSubtle, border: `1px solid ${theme.borderSubtle}`, borderRadius: '8px', color: theme.textMuted }}>
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '32px', height: '32px' }}>
+            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: theme.surfaceSubtle, border: `1px solid ${theme.borderSubtle}`, borderRadius: '8px', color: theme.textMuted, pointerEvents: 'none', transition: 'all 0.15s ease' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
             </div>
             <select
-              className="language-select"
+              title="Select Language"
               value={language}
               onChange={(e) => setLanguage(e.target.value as SupportedLanguage)}
-              style={{ backgroundColor: theme.surfaceSubtle, color: theme.textMuted, border: `1px solid ${theme.borderSubtle}`, borderRadius: '8px', padding: '5px 8px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', outline: 'none' }}
+              style={{ opacity: 0, width: '100%', height: '100%', cursor: 'pointer' }}
             >
               {SUPPORTED_LANGUAGES_LIST.map((l) => <option key={l.code} value={l.code}>{l.nativeName}</option>)}
             </select>
@@ -603,8 +609,8 @@ export const WebApp: React.FC = () => {
             title="Ask IVA Assistant"
             style={{
               position: 'fixed',
-              bottom: '24px',
-              right: '24px',
+              bottom: 'max(24px, env(safe-area-inset-bottom, 24px))',
+              right: 'max(24px, env(safe-area-inset-right, 24px))',
               zIndex: 8000,
               width: '56px',
               height: '56px',

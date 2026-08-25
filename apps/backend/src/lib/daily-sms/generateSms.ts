@@ -5,6 +5,7 @@
  * or returns something unusably long — so a message can always be produced, and the fallback path
  * stays testable without depending on a live LLM call.
  */
+import { getTranslation } from 'shared/i18n/translations';
 import type { SupportedLanguage } from 'shared/types';
 import { callGemini, callMiniMax, getLlmAvailability } from '../llm/client';
 import { resolveLanguageName } from '../llm/language';

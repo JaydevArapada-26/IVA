@@ -59,6 +59,22 @@ interface ProfileSnapshot {
   readonly studentStatus: boolean | null;
   readonly farmerStatus: boolean | null;
   readonly seniorCitizenStatus: boolean | null;
+  readonly residenceType: string | null;
+  readonly maritalStatus: string | null;
+  readonly employmentStatus: string | null;
+  readonly bplEwsStatus: string | null;
+  readonly educationLevel: string | null;
+  readonly educationStream: string | null;
+  readonly currentYearClass: string | null;
+  readonly hasDependents: boolean | null;
+  readonly numberOfDependents: number | null;
+  readonly disabilityPercentage: string | null;
+  readonly ownsAgriculturalLand: string | null;
+  readonly landholdingSize: string | null;
+  readonly agricultureActivityType: string | null;
+  readonly housingSituation: string | null;
+  readonly ownsResidentialLand: boolean | null;
+  readonly businessType: string | null;
   readonly docAadhaar: boolean | null;
   readonly docPan: boolean | null;
   readonly docIncome: boolean | null;
@@ -104,6 +120,22 @@ export async function fetchProfileSnapshot(userId: string): Promise<ProfileSnaps
       studentStatus: profileVersions.studentStatus,
       farmerStatus: profileVersions.farmerStatus,
       seniorCitizenStatus: profileVersions.seniorCitizenStatus,
+      residenceType: profileVersions.residenceType,
+      maritalStatus: profileVersions.maritalStatus,
+      employmentStatus: profileVersions.employmentStatus,
+      bplEwsStatus: profileVersions.bplEwsStatus,
+      educationLevel: profileVersions.educationLevel,
+      educationStream: profileVersions.educationStream,
+      currentYearClass: profileVersions.currentYearClass,
+      hasDependents: profileVersions.hasDependents,
+      numberOfDependents: profileVersions.numberOfDependents,
+      disabilityPercentage: profileVersions.disabilityPercentage,
+      ownsAgriculturalLand: profileVersions.ownsAgriculturalLand,
+      landholdingSize: profileVersions.landholdingSize,
+      agricultureActivityType: profileVersions.agricultureActivityType,
+      housingSituation: profileVersions.housingSituation,
+      ownsResidentialLand: profileVersions.ownsResidentialLand,
+      businessType: profileVersions.businessType,
       docAadhaar: profileVersions.docAadhaar,
       docPan: profileVersions.docPan,
       docIncome: profileVersions.docIncome,
@@ -398,6 +430,8 @@ export interface BulkSchemeEvaluation {
   /** True when this scheme is specifically targeted at the citizen's occupation (not just
    * open to everyone) — used to power the occupation-only "Schemes for me" filter. */
   readonly occupationMatch: boolean;
+  /** Global priority bonus for highly vulnerable citizens (widows, BPL, homeless, high disability) */
+  readonly vulnerabilityBonus: number;
 }
 
 /**
@@ -509,6 +543,15 @@ export async function evaluateEligibilityForPublishedSchemes(userId: string): Pr
     else documentNamesBySchemeId.set(row.schemeId, [row.documentName]);
   }
 
+  // Calculate global vulnerability bonus (0 to 25 points maximum)
+  let vulnerabilityBonus = 0;
+  if (profile.bplEwsStatus === 'bpl' || profile.bplEwsStatus === 'ews') vulnerabilityBonus += 8;
+  if (profile.maritalStatus === 'widowed') vulnerabilityBonus += 8;
+  if (profile.housingSituation === 'no_permanent_home' || profile.housingSituation === 'temporary_kutcha') vulnerabilityBonus += 5;
+  if (profile.disabilityStatus && profile.disabilityPercentage && ['40_59', '60_79', '80_plus'].includes(profile.disabilityPercentage)) vulnerabilityBonus += 4;
+  if (profile.hasDependents && profile.numberOfDependents && profile.numberOfDependents > 3) vulnerabilityBonus += 2;
+  vulnerabilityBonus = Math.min(25, vulnerabilityBonus);
+
   const results: BulkSchemeEvaluation[] = [];
   for (const scheme of schemeRows) {
     const rules = rulesBySchemeId.get(scheme.id);
@@ -542,7 +585,7 @@ export async function evaluateEligibilityForPublishedSchemes(userId: string): Pr
     const flatText = `${scheme.beneficiaryType ?? ''} ${scheme.targetBeneficiaries ?? ''} ${scheme.eligibility ?? ''}`;
     const occupationMatch = computeOccupationMatch(profile, categorizedRow, flatText);
 
-    results.push({ schemeId: scheme.id, evaluation, isUrgent: scheme.isUrgent, publishedAt: scheme.publishedAt, occupationMatch });
+    results.push({ schemeId: scheme.id, evaluation, isUrgent: scheme.isUrgent, publishedAt: scheme.publishedAt, occupationMatch, vulnerabilityBonus });
   }
 
   return results;

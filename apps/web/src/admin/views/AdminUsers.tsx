@@ -427,7 +427,7 @@ export const AdminUsers: React.FC<AdminUsersProps> = ({ theme }) => {
                           {showSmsStatus && smsState && (
                             <div style={{ marginTop: '6px', fontSize: '12px', fontWeight: 700, color: smsState.status === 'sent' ? theme.success : theme.textMuted, maxWidth: '260px' }}>
                               {smsState.status === 'sent'
-                                ? `Sent: ${smsState.schemeName ?? 'best-match scheme'}`
+                                ? `Sent: ${smsState.schemeTitle ?? smsState.schemeName ?? 'best-match scheme'}`
                                 : smsState.status === 'failed'
                                   ? (smsState.failureReason ?? 'Not sent.')
                                   : smsState.status === 'queued'

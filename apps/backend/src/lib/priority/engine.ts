@@ -54,7 +54,7 @@ export interface PagedRanking {
  *   - Eligibility    : 40 pts (eligibilityScore × 40)
  *   - Recency        : 20 pts (decays linearly to 0 over 6 months)
  */
-function computePriority(isUrgent: boolean, eligibilityScore: number, publishedAt: Date | null): number {
+function computePriority(isUrgent: boolean, eligibilityScore: number, publishedAt: Date | null, vulnerabilityBonus: number = 0): number {
   const urgencyPts = isUrgent ? 40 : 0;
   const eligibilityPts = Math.round(eligibilityScore * 40);
 
@@ -65,7 +65,7 @@ function computePriority(isUrgent: boolean, eligibilityScore: number, publishedA
     recencyPts = Math.max(0, Math.round((1 - ageMs / SIX_MONTHS_MS) * 20));
   }
 
-  return Math.min(100, urgencyPts + eligibilityPts + recencyPts);
+  return Math.min(100, urgencyPts + eligibilityPts + recencyPts + vulnerabilityBonus);
 }
 
 /**
@@ -80,7 +80,7 @@ async function buildAndCacheRanking(userId: string): Promise<readonly CachedScor
       schemeId: e.schemeId,
       isUrgent: e.isUrgent,
       eligibilityScore: e.evaluation.score,
-      priorityScore: computePriority(e.isUrgent, e.evaluation.score, e.publishedAt),
+      priorityScore: computePriority(e.isUrgent, e.evaluation.score, e.publishedAt, e.vulnerabilityBonus),
       occupationMatch: e.occupationMatch,
     }))
     .sort((a, b) => {

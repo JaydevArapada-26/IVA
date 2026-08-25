@@ -85,6 +85,7 @@ export type AdminSchemeUpsertRequest = Omit<AdminSchemeDetailDto, 'id' | 'update
 export interface AdminUserSmsStateDto {
   readonly status: 'queued' | 'sending' | 'sent' | 'delivered' | 'failed' | 'retrying';
   readonly schemeName?: string;
+  readonly schemeTitle?: string;
   readonly failureReason?: string;
   readonly createdAt: string;
   /** When this status was last updated (send completed, or failed) — used to hide the "Sent:

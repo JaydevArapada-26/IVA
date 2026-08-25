@@ -84,6 +84,9 @@ function AuthCallbackHandler() {
       }
 
       if (mounted) {
+        setStatusMessage('Redirecting...');
+        // Use window.location.href to ensure fresh load of all state on home
+        window.location.href = destination;
         setStatusMessage('Email Confirmed Successfully!');
         setDestinationUrl(destination);
         setIsSuccess(true);

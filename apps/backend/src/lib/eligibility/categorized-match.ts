@@ -112,19 +112,21 @@ export function evaluateOccupationCriterion(profile: ProfileSnapshot, row: Categ
   if (!profile.occupation) return { label: 'Occupation', matched: null };
 
   // Resolved terms for this citizen's occupation enum value.
-  const profileTerms: string[] = [...(OCCUPATION_TO_CATEGORIZED_TERMS[profile.occupation] ?? [])];
+  const profileTerms: string[] = [...(OCCUPATION_TO_CATEGORIZED_TERMS[profile.occupation ?? ''] ?? [])];
 
   // Supplement with status-flag-derived terms so farmers who set farmerStatus=true
   // (but have occupation=self_employed) also match farmer schemes, and similarly
   // for students and senior citizens.
-  if (profile.farmerStatus) profileTerms.push('farmer');
-  if (profile.studentStatus) profileTerms.push('student');
-  if (profile.seniorCitizenStatus) profileTerms.push('senior citizen');
+  if (profile.farmerStatus || profile.employmentStatus === 'farmer' || profile.employmentStatus === 'agricultural_worker') profileTerms.push('farmer');
+  if (profile.studentStatus || profile.employmentStatus === 'student') profileTerms.push('student');
+  if (profile.seniorCitizenStatus || (profile.age != null && profile.age >= 60) || profile.employmentStatus === 'retired') profileTerms.push('senior citizen');
   if (profile.disabilityStatus) profileTerms.push('person with disability');
   // SC/ST and BPL categories appear in occupation_category in some CSV rows —
   // match them via the category/income profile fields.
   if (profile.category === 'sc' || profile.category === 'st') profileTerms.push('scheduled caste / tribe');
-  if (profile.incomeRange === 'lt_1_lakh') profileTerms.push('bpl / economically weaker');
+  if (profile.incomeRange === 'lt_1_lakh' || profile.bplEwsStatus === 'bpl' || profile.bplEwsStatus === 'ews') profileTerms.push('bpl / economically weaker');
+  if (profile.maritalStatus === 'widowed') profileTerms.push('widow');
+  if (profile.employmentStatus === 'homemaker') profileTerms.push('women / shg member');
 
   const matched = schemeTerms.some((term) => profileTerms.includes(term));
   return { label: 'Occupation', matched };
@@ -153,10 +155,13 @@ function evaluateBeneficiaryCriterion(profile: ProfileSnapshot, row: Categorized
   if (!haystack) return null;
 
   const flagKeywords: ReadonlyArray<[boolean | null, readonly string[]]> = [
-    [profile.studentStatus, ['student', 'scholar']],
-    [profile.farmerStatus, ['farmer', 'agricultur']],
-    [profile.seniorCitizenStatus, ['senior citizen', 'elderly', 'pensioner']],
+    [profile.studentStatus || profile.employmentStatus === 'student', ['student', 'scholar']],
+    [profile.farmerStatus || profile.employmentStatus === 'farmer' || profile.employmentStatus === 'agricultural_worker', ['farmer', 'agricultur', 'kisan']],
+    [profile.seniorCitizenStatus || (profile.age != null && profile.age >= 60) || profile.employmentStatus === 'retired', ['senior citizen', 'elderly', 'pensioner']],
     [profile.disabilityStatus, ['disab', 'divyang', 'pwd']],
+    [profile.maritalStatus === 'widowed', ['widow', 'destitute']],
+    [profile.bplEwsStatus === 'bpl' || profile.bplEwsStatus === 'ews', ['bpl', 'ews', 'poor']],
+    [profile.employmentStatus === 'unemployed', ['unemployed', 'youth']],
   ];
 
   const applicableFlags = flagKeywords.filter(([, keywords]) => keywords.some((k) => haystack.includes(k)));

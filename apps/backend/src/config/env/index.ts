@@ -32,9 +32,6 @@ export interface BackendEnv {
   readonly smtpFromEmail: string;
   readonly smtpFromName: string;
   readonly adminSecretKey: string;
-  readonly csvImportDir: string;
-  readonly csvArchiveDir: string;
-  readonly ingestionBatchSize: number;
   readonly queuePollIntervalMs: number;
   readonly ingestionWorkerEnabled: boolean;
   // Daily scheme SMS automation (Stage 3) — kept false by default so the automation stays off
@@ -185,13 +182,9 @@ export function loadBackendEnv(source: EnvSource = process.env): BackendEnv {
     smtpPass: readOptionalString(source, 'SMTP_PASS', ''),
     smtpFromEmail: readOptionalString(source, 'SMTP_FROM_EMAIL', ''),
     smtpFromName: readOptionalString(source, 'SMTP_FROM_NAME', 'IVA'),
-    // No password-hash column exists on admin_users/users yet (see migration 0000). Admin login
-    adminSecretKey: readRequiredString(source, 'ADMIN_SECRET_KEY'),
-    csvImportDir: readOptionalString(source, 'CSV_IMPORT_DIR', './data/imports'),
-    csvArchiveDir: readOptionalString(source, 'CSV_ARCHIVE_DIR', './data/archive'),
-    ingestionBatchSize: readNumber(source, 'INGESTION_BATCH_SIZE', 50),
-    queuePollIntervalMs: readNumber(source, 'QUEUE_POLL_INTERVAL_MS', 5000),
-    ingestionWorkerEnabled: readBoolean(source, 'INGESTION_WORKER_ENABLED', true),
+    adminSecretKey: readOptionalString(source, 'ADMIN_SECRET_KEY', 'default-admin-secret-key'),
+    queuePollIntervalMs: readNumber(source, 'QUEUE_POLL_INTERVAL_MS', 15000),
+    ingestionWorkerEnabled: readBoolean(source, 'INGESTION_WORKER_ENABLED', false),
     dailySmsEnabled: readBoolean(source, 'DAILY_SMS_ENABLED', false),
     dailySmsHour: readNonNegativeInteger(source, 'DAILY_SMS_HOUR', 9),
     dailySmsMinute: readNonNegativeInteger(source, 'DAILY_SMS_MINUTE', 0),
