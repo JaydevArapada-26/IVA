@@ -14,6 +14,8 @@ function AuthCallbackHandler() {
   const searchParams = useSearchParams();
   const [statusMessage, setStatusMessage] = useState('Verifying your email...');
   const [error, setError] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [destinationUrl, setDestinationUrl] = useState('/');
   const processedRef = useRef(false);
 
   useEffect(() => {
@@ -82,9 +84,9 @@ function AuthCallbackHandler() {
       }
 
       if (mounted) {
-        setStatusMessage('Redirecting...');
-        // Use window.location.href to ensure fresh load of all state on home
-        window.location.href = destination;
+        setStatusMessage('Email Confirmed Successfully!');
+        setDestinationUrl(destination);
+        setIsSuccess(true);
       }
     }
 
@@ -180,6 +182,33 @@ function AuthCallbackHandler() {
           <h2 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: 800 }}>Authentication Failed</h2>
           <p style={{ margin: '0 0 12px 0', fontSize: '14px', lineHeight: 1.5 }}>{error}</p>
           <p style={{ margin: 0, fontSize: '13px', color: '#991b1b' }}>Redirecting you back...</p>
+        </div>
+      ) : isSuccess ? (
+        <div style={{ color: '#16a34a', textAlign: 'center', maxWidth: '420px', padding: '32px', borderRadius: '16px', background: '#f0fdf4', border: '1px solid #bbf7d0' }}>
+          <div style={{ width: '56px', height: '56px', margin: '0 auto 16px', backgroundColor: '#dcfce7', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg style={{ width: '32px', height: '32px', color: '#16a34a' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h2 style={{ margin: '0 0 8px 0', fontSize: '22px', fontWeight: 800, color: '#15803d' }}>{statusMessage}</h2>
+          <p style={{ margin: '0 0 24px 0', fontSize: '15px', color: '#166534' }}>Your account has been successfully verified.</p>
+          <button
+            onClick={() => { window.location.href = destinationUrl; }}
+            style={{
+              padding: '12px 24px',
+              backgroundColor: '#16a34a',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '8px',
+              fontSize: '16px',
+              fontWeight: 700,
+              cursor: 'pointer',
+              width: '100%',
+              boxShadow: '0 4px 6px -1px rgba(22, 163, 74, 0.2)'
+            }}
+          >
+            Continue to Homepage
+          </button>
         </div>
       ) : (
         <div style={{ color: '#374151', textAlign: 'center' }}>
