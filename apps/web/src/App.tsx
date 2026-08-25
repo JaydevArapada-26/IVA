@@ -24,7 +24,7 @@ import { ApiError } from 'shared/api-client';
 import { toLocalDigits } from './lib/phone';
 import { clearRememberedAccount, readRememberedAccount } from './lib/rememberedAccount';
 import { clearLoginTimestamp, isSessionExpired, markLoginTimestamp } from './lib/sessionTimeout';
-import { EmailConfirmedPage } from './views/EmailConfirmedPage';
+
 import { ResetPasswordPage } from './views/ResetPasswordPage';
 
 // ─── Navbar Icons ─────────────────────────────────────────────────────────────
@@ -68,7 +68,7 @@ export const WebApp: React.FC = () => {
   const [profileDto, setProfileDto] = useState<ProfileDto | null>(null);
 
   const [passwordRecoveryMode, setPasswordRecoveryMode] = useState(false);
-  const [showEmailConfirmedAck, setShowEmailConfirmedAck] = useState(false);
+
   const [assistantFloatingOpen, setAssistantFloatingOpen] = useState(false);
 
   const [rememberedIdentifier, setRememberedIdentifier] = useState<string | null>(null);
@@ -158,7 +158,7 @@ export const WebApp: React.FC = () => {
             sessionStorage.removeItem('iva_goto_after_auth');
             setRoute(gotoRoute);
           } else {
-            setShowEmailConfirmedAck(true);
+            setRoute('/');
           }
         } else {
           const result = await api.auth.sessionExchange({ supabaseAccessToken: session.access_token });
@@ -212,7 +212,7 @@ export const WebApp: React.FC = () => {
               sessionStorage.removeItem('iva_goto_after_auth');
               setRoute(gotoRoute);
             } else {
-              setShowEmailConfirmedAck(true);
+              setRoute('/');
             }
           } catch (exErr) {
             console.error('[IVA] sessionExchange fallback after CONFLICT also failed:', exErr);
@@ -310,9 +310,7 @@ export const WebApp: React.FC = () => {
   if (passwordRecoveryMode) {
     return <ResetPasswordPage theme={theme} onDone={() => { setPasswordRecoveryMode(false); setRoute('/auth'); setAuthMode('login'); }} />;
   }
-  if (showEmailConfirmedAck) {
-    return <EmailConfirmedPage theme={theme} onContinue={() => { setShowEmailConfirmedAck(false); setRoute('/profile/schemes-for-me'); }} />;
-  }
+
   if (rememberedIdentifier && !chooserDismissed) {
     return (
       <div style={{ minHeight: '100vh', backgroundColor: theme.background, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
