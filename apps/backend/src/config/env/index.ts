@@ -25,10 +25,12 @@ export interface BackendEnv {
   readonly twilioAccountSid: string;
   readonly twilioAuthToken: string;
   readonly twilioMessagingServiceSid: string;
-  readonly mailjetApiKey: string;
-  readonly mailjetApiSecret: string;
-  readonly mailjetFromEmail: string;
-  readonly mailjetFromName: string;
+  readonly smtpHost: string;
+  readonly smtpPort: number;
+  readonly smtpUser: string;
+  readonly smtpPass: string;
+  readonly smtpFromEmail: string;
+  readonly smtpFromName: string;
   readonly adminSecretKey: string;
   readonly csvImportDir: string;
   readonly csvArchiveDir: string;
@@ -177,10 +179,12 @@ export function loadBackendEnv(source: EnvSource = process.env): BackendEnv {
     twilioAccountSid: readOptionalString(source, 'TWILIO_ACCOUNT_SID', ''),
     twilioAuthToken: readOptionalString(source, 'TWILIO_AUTH_TOKEN', ''),
     twilioMessagingServiceSid: readOptionalString(source, 'TWILIO_MESSAGING_SERVICE_SID', ''),
-    mailjetApiKey: readOptionalString(source, 'MAILJET_API_KEY', ''),
-    mailjetApiSecret: readOptionalString(source, 'MAILJET_API_SECRET', ''),
-    mailjetFromEmail: readOptionalString(source, 'MAILJET_FROM_EMAIL', ''),
-    mailjetFromName: readOptionalString(source, 'MAILJET_FROM_NAME', 'IVA'),
+    smtpHost: readOptionalString(source, 'SMTP_HOST', 'smtp.gmail.com'),
+    smtpPort: parseInt(readOptionalString(source, 'SMTP_PORT', '587'), 10),
+    smtpUser: readOptionalString(source, 'SMTP_USER', ''),
+    smtpPass: readOptionalString(source, 'SMTP_PASS', ''),
+    smtpFromEmail: readOptionalString(source, 'SMTP_FROM_EMAIL', ''),
+    smtpFromName: readOptionalString(source, 'SMTP_FROM_NAME', 'IVA'),
     // No password-hash column exists on admin_users/users yet (see migration 0000). Admin login
     adminSecretKey: readRequiredString(source, 'ADMIN_SECRET_KEY'),
     csvImportDir: readOptionalString(source, 'CSV_IMPORT_DIR', './data/imports'),
