@@ -17,12 +17,21 @@
  * Never surfaces internal scores, rule ids, or database ids to end-user-facing text — callers
  * (the assistant prompt builder, the SMS body generator) work off `title`/`reasons`/`tier` only.
  */
-import { ALL_INDIAN_STATES_AND_UTS } from 'shared/constants/indiaLocationData';
 import { SchemeRepository } from '../../db/repositories/scheme.repository';
 import { SmsNotificationRepository } from '../../db/repositories/sms-notification.repository';
 import { evaluateEligibilityForPublishedSchemes, fetchProfileSnapshot, type ProfileSnapshot } from '../eligibility/engine';
 import { generateStructuredText, getLlmAvailability } from '../llm/client';
 import { expandKeywordsWithIntent, extractKeywords } from '../text/keywords';
+
+const ALL_INDIAN_STATES_AND_UTS: readonly string[] = [
+  'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa',
+  'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala',
+  'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland',
+  'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura',
+  'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands',
+  'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi (NCT)',
+  'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry',
+];
 
 
 
