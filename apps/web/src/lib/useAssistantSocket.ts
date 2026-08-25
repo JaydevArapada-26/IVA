@@ -22,10 +22,23 @@ let sharedSocket: AssistantSocket | null = null;
 let mountCount = 0;
 
 function getWsUrl(): string {
-  if (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_WS_URL) {
+  // If explicitly configured
+  if (process.env.NEXT_PUBLIC_WS_URL) {
     return `${process.env.NEXT_PUBLIC_WS_URL}/ws/assistant`;
   }
-  // Derive from current origin (ws: / wss: mirrors http: / https:)
+  
+  // Derive from API URL (e.g. https://iva-tfpb.onrender.com/api/v1 -> wss://iva-tfpb.onrender.com/ws/assistant)
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    try {
+      const url = new URL(process.env.NEXT_PUBLIC_API_URL);
+      const proto = url.protocol === 'https:' ? 'wss:' : 'ws:';
+      return `${proto}//${url.host}/ws/assistant`;
+    } catch (e) {
+      // fallback if invalid URL
+    }
+  }
+
+  // Fallback to current origin (only works if frontend and backend share host/port, like local dev)
   if (typeof window !== 'undefined') {
     const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     return `${proto}//${window.location.hostname}:4000/ws/assistant`;
